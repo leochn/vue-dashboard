@@ -24,4 +24,8 @@ npm i element-ui -S
 npm install vue-router -D
 npm install vue-loader -D
 npm install vuex --save
+npm install style-loader -D
+npm install vue-style-loader -D
+npm install sass-loader -D
+npm install node-sass --save-dev
 ```

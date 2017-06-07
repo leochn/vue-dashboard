@@ -23,18 +23,7 @@
     },
     data() {
       return {
-        menuList:[
-            {"id":1,"parentId":null,"sort":0,"name":"仪表盘","href":"/index","icon":"fa fa-dashboard","children":[],"isShow":"1"},
-            {"id":31,"parentId":null,"sort":1,"name":"测试1","href":"/test/1","icon":"fa fa-upload","children":
-            [
-              {"id":92,"parentId":31,"sort":0,"name":"测试1-1","href":"/test/1/1","icon":"fa fa-bank","children":[
-                {"id":912,"parentId":92,"sort":0,"name":"测试1-1-1","href":"/test/1/1/1","icon":"fa fa-bank","children":[],"isShow":"1"},
-                {"id":913,"parentId":92,"sort":0,"name":"测试1-1-2","href":"/test/1/1/2","icon":"fa fa-area-chart","children":[],"isShow":"1"}
-              ],"isShow":"1"},
-              {"id":93,"parentId":31,"sort":0,"name":"测试1-2","href":"/test/1/2","icon":"fa fa-area-chart","children":[],"isShow":"1"}
-            ]
-            ,"isShow":"1"}
-        ]
+        menuList:[]
       }
     },
     components: {
@@ -73,6 +62,7 @@
 
     // mounted:模板编译之后,代替之前ready
     mounted () {
+      this.fetchMenuList();
       let route = this.$route
 //      console.log(route)
 //      if (route.name) {
@@ -91,9 +81,21 @@
     //   })
     // }
     
-    methods: mapActions({
-        loadMenuList: 'loadMenuList' // 映射 this.load() 为 this.$store.dispatch('loadMenuList')
-    })
+    // methods: mapActions({
+    //     loadMenuList: 'loadMenuList' // 映射 this.load() 为 this.$store.dispatch('loadMenuList')
+    // })
+    
+    methods:{
+      fetchMenuList(){
+        alert(1);
+        var _this = this;
+        this.$http.get('src/data/menuList.json').then(function(res){
+          _this.menuList = res.data;
+        }).catch(function(err){
+          console.log(err);
+        });
+      }
+    }
   }
 </script>
 <style>

@@ -1,56 +1,121 @@
 <template>
   <div id="app">
-    <h3>vue-dashboard</h3>
-    <p>
-      <!-- 使用 router-link 组件来导航. -->
-      <!-- 通过传入 `to` 属性指定链接. -->
-      <!-- <router-link> 默认会被渲染成一个 `<a>` 标签 -->
-      <router-link to="/about">Go to about</router-link>
-      <router-link to="/user">Go to user</router-link>
-    </p>
-    <!-- 路由出口 -->
     <!-- 路由匹配到的组件将渲染在这里 -->
-    <router-view></router-view>
+    <imp-header></imp-header>
+    <side-menu :show="sidebar.opened && !sidebar.hidden"></side-menu>
+    <div class="content-wrapper">
+      <section class="content">
+        <transition mode="out-in" enter-active-class="fadeIn" leave-active-class="fadeOut" appear>
+          <router-view></router-view>
+        </transition>
+      </section>
+      <!-- <imp-footer></imp-footer> -->
+    </div>
   </div>
 </template>
 
 <script>
+  import Vue from 'vue'
+  import sideMenu from './components/SideMenu.vue'
+  import impHeader from './components/Header.vue'
+  import "font-awesome/css/font-awesome.css";
+  import {mapGetters, mapActions,mapMutations} from 'vuex'
+  import * as types from "./store/mutation-types"
+  import 'animate.css'
 
-export default {
-  name: 'app',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
+  export default {
+    name: 'app',
+    data () {
+      return {
+        msg: 'Welcome to Your Vue.js App'
+      }
+    },
+    components:{
+      impHeader,
+      sideMenu
+    },
+    computed: {
+        ...mapGetters({
+            sidebar: 'sidebar'
+        })
+    },
+    methods: {
+      ...mapMutations({
+        toggleDevice: types.TOGGLE_DEVICE,
+        toggleSidebar: types.TOGGLE_SIDEBAR
+      }),
+    },
+    beforeMount () {
+      const { body } = document
+      const WIDTH = 784
+      const handler = () => {
+        if (!document.hidden) {
+          let rect = body.getBoundingClientRect()
+          let isMobile = rect.width < WIDTH
+          this.toggleDevice(isMobile);
+          this.toggleSidebar(!isMobile)
+        }
+      }
+      document.addEventListener('visibilitychange', handler)
+      window.addEventListener('DOMContentLoaded', handler)
+      window.addEventListener('resize', handler)
     }
-  },
-}
+  }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  html {
+    background-color: #f5f5f5;
+    font-size: 14px;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    min-width: 300px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    text-rendering: optimizeLegibility;
+    box-sizing: border-box;
+  }
 
-h1, h2 {
-  font-weight: normal;
-}
+  body {
+    color: #4a4a4a;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+  }
 
-ul {
-  list-style-type: none;
-  padding: 0;
-}
+  .animated {
+    animation-duration: .5s;
+  }
 
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
+  blockquote, body, dd, dl, dt, fieldset, figure, h1, h2, h3, h4, h5, h6, hr, html, iframe, legend, li, ol, p, pre, textarea, ul {
+    margin: 0;
+    padding: 0;
+  }
 
-a {
-  color: #42b983;
-}
+  *,:after, :before {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+
+
+  .content-wrapper {
+    -webkit-transition: -webkit-transform 0.3s ease-in-out, margin 0.3s ease-in-out;
+    -moz-transition: -moz-transform 0.3s ease-in-out, margin 0.3s ease-in-out;
+    -o-transition: -o-transform 0.3s ease-in-out, margin 0.3s ease-in-out;
+    transition: transform 0.3s ease-in-out, margin 0.3s ease-in-out;
+    margin-left: 230px;
+    z-index: 820;
+    padding-top: 50px;
+    min-height: 100%;
+    z-index: 800;
+  }
+  @media (max-width: 800px) {
+    .content-wrapper{
+      margin-left: 0px;
+    }
+  }
+  .content-wrapper .content {
+    padding: 1.25rem;
+  }
 </style>

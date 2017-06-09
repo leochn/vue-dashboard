@@ -1,96 +1,215 @@
-<template>
-	<div class="login-body">
-    <div class="loginWarp" v-loading="load_data"
-         element-loading-text="正在登陆中..."
-         @keyup.enter="submit_form">
-      <div class="login-title">
-        <img src="src/assets/login_logo.png"/>
+<template lang="html">
+  <el-row>
+    <el-col :span="12" :offset="6">
+      <div class="login">
+        <div class="login-form">
+          <div class="card-block">
+            <h1>Dashboard</h1>
+            <p class="text-muted">使用用户名登录</p>
+            <div class="input-group m-b-1">
+              <span class="input-group-addon"><i class="fa fa-user"></i></span>
+              <input type="text" class="form-control" placeholder="Username" v-model="form.username">
+            </div>
+            <div class="input-group m-b-2">
+              <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+              <input type="password" class="form-control" placeholder="Password" v-model="form.password"
+                     @keyup.enter="login">
+            </div>
+            <div class="row">
+              <el-row>
+                <el-col :span="12">
+                  <el-button type="primary" class="btn btn-primary p-x-2" @click="login">登录</el-button>
+                </el-col>
+                <el-col :span="12">
+                  <el-button type="button" class="btn btn-link forgot" style="float:right;">忘记密码?</el-button>
+                </el-col>
+              </el-row>
+            </div>
+          </div>
+        </div>
+        <div class="login-register">
+          <div class="card-block">
+            <h2>注册</h2>
+            <p>平台暂时只支持使用公司邮箱注册.</p>
+            <el-button type="info" class="btn btn-primary active m-t-1"> 马上注册</el-button>
+          </div>
+        </div>
       </div>
-      <div class="login-form">
-        <el-form ref="form" :model="form" :rules="rules" label-width="0">
-          <el-form-item prop="username" class="login-item">
-            <el-input v-model="form.username" placeholder="请输入账户名：" class="form-input" :autofocus="true"></el-input>
-          </el-form-item>
-          <el-form-item prop="password" class="login-item">
-            <el-input type="password" v-model="form.password" placeholder="请输入账户密码：" class="form-input"></el-input>
-          </el-form-item>
-          <el-form-item class="login-item">
-            <el-button size="large" icon="check" class="form-submit" @click="submit_form"></el-button>
-          </el-form-item>
-        </el-form>
-      </div>
-    </div>
-  </div>
+    </el-col>
+  </el-row>
 </template>
+
 <script>
-	export default {
-		data(){
-			return {
-				form:{
-					username:null,
-					password:null
-				},
-				rules:{
-					username:[],
-					password:[]
-				},
-				load_data: false
-			}
-		},
-		methods:{
-			submit_form(){
-        alert('登录...');
-			}
-		}
-	}
-</script>
-<style scoped>
-  .login-body {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url(/src/assets/login_bg.jpg);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    .loginWarp {
-      width: 300px;
-      padding: 25px 15px;
-      margin: 100px auto;
-      background-color: #fff;
-      border-radius: 5px;
-      .login-title {
-        margin-bottom: 25px;
-        text-align: center;
-      }
-      .login-item {
-        .el-input__inner {
-          margin: 0 !important;
+  import * as types from '../store/mutation-types'
+  import * as api from "../api"
+  import  auth from '../auth'
+  import {mapGetters, mapActions, mapMutations} from 'vuex'
+
+  export default {
+    name: 'login',
+    data() {
+      return {
+        form: {
+          username: '',
+          password: ''
         }
       }
-      .form-input {
-        input {
-          margin-bottom: 15px;
-          font-size: 12px;
-          height: 40px;
-          border: 1px solid #eaeaec;
-          background: #eaeaec;
-          border-radius: 5px;
-          color: #555;
+    },
+    components: {},
+    methods: {
+      ...mapMutations({
+        setUserInfo: types.SET_USER_INFO
+      }),
+      ...mapActions({
+        loadMenuList: 'loadMenuList' // 映射 this.load() 为 this.$store.dispatch('loadMenuList')
+      }),
+      login(){
+        var redirectUrl = '/index';
+        if (this.$route.query && this.$route.query != null && this.$route.query.redirect && this.$route.query.redirect != null) {
+          redirectUrl = this.$route.query.redirect;
         }
-      }
-      .form-submit {
-        width: 100%;
-        color: #fff;
-        border-color: #6bc5a4;
-        background: #6bc5a4;
-        &:active, &:hover {
-          border-color: #6bc5a4;
-          background: #6bc5a4;
-        }
+        this.$http.get(api.TEST_DATA, this.form).then(res => {
+          res.data = res.data.loginInfo;
+          auth.login(res.data.sid);
+          window.sessionStorage.setItem("user-info", JSON.stringify(res.data.user));
+          this.setUserInfo(res.data.user);
+          this.$http.defaults.headers.common['authSid'] = res.data.sid;
+          this.loadMenuList();
+          this.$router.push({path: redirectUrl});
+        })
       }
     }
+  }
+</script>
+
+<style>
+  .login {
+    margin-top: 160px;
+    width: 100%;
+    border: 1px solid #cfd8dc;
+    margin-right: auto !important;
+    margin-left: auto !important;
+    display: table;
+    table-layout: fixed;
+  }
+
+  .login .el-button {
+    border-radius: 0;
+  }
+
+  .login .el-button.forgot, .login .el-button.forgot:hover {
+    border: none;
+  }
+
+  .login .login-form {
+    background-color: #FFFFFF;
+    display: inline-block;
+    width: 60%;
+    display: table-cell;
+
+  }
+
+  .login .login-form .card-block {
+    margin: 35px;
+  }
+
+  .login .login-form .card-block p {
+    margin: 15px 0;
+  }
+
+  .input-group {
+    width: 100%;
+    display: table;
+    border-collapse: separate;
+    margin-bottom: 20px !important;
+  }
+
+  .input-group, .input-group-btn, .input-group-btn > .btn, .navbar {
+    position: relative;
+  }
+
+  .input-group-addon:not(:last-child) {
+    border-right: 0;
+  }
+
+  .input-group-addon, .input-group-btn {
+    min-width: 40px;
+    white-space: nowrap;
+    vertical-align: middle;
+    width: 1%;
+  }
+
+  .btn-link:focus, .btn-link:hover {
+    color: #167495;
+    text-decoration: underline;
+    background-color: transparent;
+  }
+
+  .btn-link, .btn-link:active, .btn-link:focus, .btn-link:hover {
+    border-color: transparent;
+  }
+
+  .btn.focus, .btn:focus, .btn:hover {
+    text-decoration: none;
+  }
+
+  .input-group-addon {
+    padding: .5rem .75rem;
+    margin-bottom: 0;
+    font-size: .875rem;
+    font-weight: 400;
+    line-height: 1.75rem;
+    color: #607d8b;
+    text-align: center;
+    background-color: #cfd8dc;
+    border: 1px solid rgba(0, 0, 0, .15);
+  }
+
+  .input-group .form-control, .input-group-addon, .input-group-btn {
+    display: table-cell;
+  }
+
+  .input-group .form-control {
+    position: relative;
+    z-index: 2;
+    float: left;
+    width: 100%;
+    margin-bottom: 0;
+  }
+
+  .form-control {
+    width: 100%;
+    padding: .5rem .75rem;
+    font-size: .875rem;
+    line-height: 1.75rem;
+    color: #607d8b;
+    background-color: #fff;
+    background-image: none;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, .15);
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  }
+
+  .login .login-form .card-block .row {
+    display: block;
+    margin: 15px 0;
+  }
+
+  .login .login-register {
+    display: table-cell;
+    background-color: #20a8d8;
+    width: 40%;
+    color: #fff;
+  }
+
+  .login .login-register .card-block {
+    text-align: center !important;
+    margin: 30px;
+  }
+
+  .login .login-register .card-block p {
+    text-align: left !important;
+    margin: 15px 0;
+    height: 100px;
   }
 </style>

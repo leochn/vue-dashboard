@@ -14,6 +14,7 @@ Vue.use(VueRouter);
 //使用AMD方式加载
 // component: resolve => require(['pages/home'], resolve),
 
+
 const routes = [{
 	path:'/login',
 	name:'login',
@@ -31,7 +32,7 @@ const routes = [{
 // },
 {path:'/home',name:'home',component:Home},
 {path:'/index',name:'index',component:Index},
-{path:'/user',name:'user',component:User},
+{path:'/sys/users',name:'user',component:User},
 {path:'/role',name:'role',component:Role},
 {path:'/about',name:'about',component:About}
 ]
@@ -48,7 +49,7 @@ const router = new VueRouter({
 
 //全局路由配置
 //路由开始之前的操作
-// ........
+
 
 
 

@@ -45,5 +45,5 @@ export const UPLOAD_FORM_FILE_TEMP = CONTEXT + '/upload/formFile';
 export const UPLOAD_FORM_FILE_BATCH = CONTEXT + '/upload/batch';
 
 export const MSG_TOP_TEN = CONTEXT + '/msg/topTen';
-export const TEST_DATA = CONTEXT + 'data/data.json';
+export const TEST_DATA = CONTEXT + 'src/data/data.json';
 

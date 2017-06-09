@@ -23,10 +23,10 @@
           <li class="dropdown messages-menu">
             <a href="#" class="dropdown-toggle" @click.stop.prevent="showMessageBox=!showMessageBox">
               <i class="fa fa-envelope-o"></i>
-              <span class="label label-success">8</span>
+              <span class="label label-success">{{count}}</span>
             </a>
             <ul class="dropdown-menu" v-if="showMessageBox">
-              <li class="header">您有8条消息</li>
+              <li class="header">您有{{count}}条消息</li>
               <li>
                 <!-- inner menu: contains the actual data -->
                 <ul class="menu">
@@ -44,7 +44,7 @@
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" @click.stop.prevent="showProfileBox=!showProfileBox">
               <img src="../assets/user2-160x160.jpg" class="user-image" alt="User Image">
-              <span class="hidden-xs">管理员</span>
+              <span class="hidden-xs">{{userInfo.name}}</span>
             </a>
             <ul class="dropdown-menu" v-if="showProfileBox">
               <!-- User image -->
@@ -86,8 +86,8 @@
 <script>
   import {mapGetters, mapActions, mapMutations} from 'vuex'
   import * as types from "../store/mutation-types"
-  // import * as api from "../../api"
-  // import  auth from '../../auth'
+  import * as api from "../api"
+  //import  auth from '../../auth'
   export default {
     data(){
       return {
@@ -103,9 +103,14 @@
     }),
     methods: {
       logout(){
-        alert('logout......');
+        this.$http.get(api.TEST_DATA)
+          .then(res => {
+            //auth.logout();
+            this.$http.defaults.headers.common['authSid'] = '';
+            this.$router.push({path: '/login'});
+          })
       },
-      //...mapMutations({toggleSidebar: types.TOGGLE_SIDEBAR, setUserInfo: types.SET_USER_INFO}),
+      ...mapMutations({toggleSidebar: types.TOGGLE_SIDEBAR, setUserInfo: types.SET_USER_INFO}),
       toggleMessage(){
         this.showMessageBox = !this.showMessageBox;
       },
@@ -127,7 +132,15 @@
           this.setUserInfo(JSON.parse(item));
       }
       this.count = 0;
-      this.list = []
+      this.list = [];
+      this.$http.get(api.TEST_DATA)
+        .then(res => {
+            res.data = res.data.messageList;
+            if (res.data && res.data.length>0){
+                this.count = res.data.length;
+                this.list = res.data;
+            }
+        })
     },
     mounted() {
       document.addEventListener('click', this.autoHide, false)
@@ -139,7 +152,7 @@
 </script>
 <style scoped>
   .animated {
-    animation-duration: .5s;
+    animation-duration: 3s;
   }
 
   .main-header a {

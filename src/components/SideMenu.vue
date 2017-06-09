@@ -5,7 +5,7 @@
                :default-openeds="onRouteKeys"
                class="el-menu-vertical-demo"
                theme="dark" router>
-        <template v-for="item in menuList">
+        <template v-for="item in sideMenuList">
           <sub-menu :param="item"></sub-menu>
         </template>
       </el-menu>
@@ -16,14 +16,14 @@
   import subMenu from "./SubMenu.vue"
   import {mapGetters, mapActions, mapMutations} from 'vuex'
 
-
   export default {
     props: {
-      show: Boolean
+      //sideBar的显示与隐藏
+      show: Boolean   //给show指定为Boolean类型,子组件获取父组件的(show)数据,即SideMenu.vue获取App.vue中的数据,而App.vue中的数据是通过vuex来管理的.
     },
     data() {
       return {
-        menuList:[]
+        sideMenuList:[]
       }
     },
     components: {
@@ -52,17 +52,16 @@
           }
           return kas.reverse();
         }
-        console.log(this.$route.path);
-        //console.log(this.menuList);
-        return getParentArray(this.$route.path, this.menuList);
+        //console.log('loading:' + this.loading);
+        return getParentArray(this.$route.path, this.sideMenuList);
       },
       // 使用对象展开运算符将 getters 混入 computed 对象中
-      //...mapGetters(['menuList'])
+      //...mapGetters(['loading'])
     },
 
     // mounted:模板编译之后,代替之前ready
     mounted () {
-      this.fetchMenuList();
+      this.fetchSideMenuList();
       let route = this.$route
 //      console.log(route)
 //      if (route.name) {
@@ -77,28 +76,24 @@
 
     // methods: {
     //   ...mapActions({
-    //     load: 'loadMenuList' // 映射 this.load() 为 this.$store.dispatch('loadMenuList')
+    //     loadMenuList: 'loadMenuList' // 映射 this.load() 为 this.$store.dispatch('loadMenuList')
     //   })
     // }
-    
-    // methods: mapActions({
-    //     loadMenuList: 'loadMenuList' // 映射 this.load() 为 this.$store.dispatch('loadMenuList')
-    // })
-    
+       
     methods:{
-      fetchMenuList(){
-        alert(1);
+      fetchSideMenuList(){
+        //alert(1);
         var _this = this;
         this.$http.get('src/data/menuList.json').then(function(res){
-          _this.menuList = res.data;
+          _this.sideMenuList = res.data;
         }).catch(function(err){
           console.log(err);
         });
-      }
+      },
     }
   }
 </script>
-<style>
+<style scoped>
   @media (max-width: 800px) {
   .main-sidebar {
       transform: translate3d(-230px, 0, 0);
@@ -106,15 +101,15 @@
   }
 
   .slideInLeft {
-    animation-duration: .377s;
+    animation-duration: 3s;
     animation-name: slideInLeft;
   }
 
   .slideOutLeft {
-    animation-duration: .377s;
+    animation-duration: 1s;
     animation-name: slideOutLeft;
   }
-
+  
   .main-sidebar {
     background-color: #324157;
     position: fixed;

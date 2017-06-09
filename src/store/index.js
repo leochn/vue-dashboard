@@ -30,7 +30,7 @@ const store = new Vuex.Store({
     device: {
       isMobile: false
     },
-    userInfo:{name:'佚名'}
+    userInfo:{name:'Admin'}
   },
   mutations: {
     //只能同步的函数
@@ -49,6 +49,8 @@ const store = new Vuex.Store({
     [types.TOGGLE_SIDEBAR] (state, open) {
       if (open == null) open = !state.sidebar.opened;
       state.sidebar.opened = open;
+      //alert('state.sidebar.opened==' + state.sidebar.opened);
+      //console.log('state.sidebar.opened==' + state.sidebar.opened);
     }
   }, actions: {
     //异步的函数

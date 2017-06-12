@@ -68,9 +68,12 @@
         if (this.$route.query && this.$route.query != null && this.$route.query.redirect && this.$route.query.redirect != null) {
           redirectUrl = this.$route.query.redirect;
         }
-        this.$http.get(api.TEST_DATA, this.form).then(res => {
+        //api.TEST_DATA = src/data/data.json
+        this.$http.get('src/data/data.json', this.form).then(res => {
           res.data = res.data.loginInfo;
-          auth.login(res.data.sid);
+          console.log("res.data.loginInfo=" + res.data);
+          alert("res.data.loginInfo=" + res.data.sid);
+          auth.login(res.data.sid,alert('heheheheh'));
           window.sessionStorage.setItem("user-info", JSON.stringify(res.data.user));
           this.setUserInfo(res.data.user);
           this.$http.defaults.headers.common['authSid'] = res.data.sid;

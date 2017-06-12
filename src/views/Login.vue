@@ -68,12 +68,11 @@
         if (this.$route.query && this.$route.query != null && this.$route.query.redirect && this.$route.query.redirect != null) {
           redirectUrl = this.$route.query.redirect;
         }
-        //api.TEST_DATA = src/data/data.json
+        //请求后台api,获取jwt
         this.$http.get('src/data/data.json', this.form).then(res => {
           res.data = res.data.loginInfo;
-          console.log("res.data.loginInfo=" + res.data);
-          alert("res.data.loginInfo=" + res.data.sid);
-          auth.login(res.data.sid,alert('heheheheh'));
+          //auth.login(res.data.sid,alert('callback......'));
+          auth.login(res.data.sid);
           window.sessionStorage.setItem("user-info", JSON.stringify(res.data.user));
           this.setUserInfo(res.data.user);
           this.$http.defaults.headers.common['authSid'] = res.data.sid;

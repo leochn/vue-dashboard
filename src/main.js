@@ -32,6 +32,7 @@ Vue.prototype.$http = axios  //其他页面在使用axios的时候直接  this.$
 
 const {state} = store
 
+//路由开始之前的操作
 router.beforeEach((route, redirect, next) => {
   console.log('auth.loggedIn()=' + auth.loggedIn());
   console.log('router.beforeEach........');

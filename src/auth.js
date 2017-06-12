@@ -43,7 +43,6 @@ export default {
     return '';
   },
   login (token, callback) {
-    alert('auth.login()......');
     window.localStorage.setItem('imp-sid',token);
     if (callback) callback();
   },
@@ -59,8 +58,8 @@ export default {
 
   loggedIn () {
     //var getItem1 = window.localStorage.getItem('imp-sid');
-    //alert(getItem1);
-    //alert(!!getItem1);
+    //console.log(getItem1);
+    //console.log(!!getItem1);
     return !!window.localStorage.getItem('imp-sid');
   }
 }

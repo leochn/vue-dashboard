@@ -56,3 +56,9 @@ npm install animate.css --save
   "plugins": ["transform-object-rest-spread"]
 }
 ```
+
+## jwt
+
+```
+login.vue 登录获取后端 apiServer 的jwt-token和用户信息,然后在header.vue中显示用户信息,前端在每次请求的时候,请求头带着jwt-token,后端 apiServer 验证jwt-token的有效性.如果未通过验证,跳转到哪里呢?(如何处理逻辑?)
+```

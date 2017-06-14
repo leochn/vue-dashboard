@@ -68,7 +68,9 @@
         if (this.$route.query && this.$route.query != null && this.$route.query.redirect && this.$route.query.redirect != null) {
           redirectUrl = this.$route.query.redirect;
         }
-        //请求后台api,获取jwt
+
+
+        //请求后台api,获取jwt,并把信息写到session中.
         // this.$http.get('src/data/data.json', this.form).then(res => {
         //   res.data = res.data.loginInfo;
         //   //auth.login(res.data.sid,alert('callback......'));
@@ -80,42 +82,34 @@
         //   this.$router.push({path: redirectUrl});
         // })
 
-        // this.$http.post('http://localhost:8089/test',this.form,{headers:{'sn':'appliencoded'}}).then(res=>{
-        //   console.log(res.data.status);
-        //   console.log(res.data.userName);
-        //   console.log(res.data.token);
-        // })
 
         // var axiosIns = this.$http.create({ url: 'http://localhost:8089/test?username=admin&password=admin', timeout: 100 })
         // axiosIns.get()
 
-        this.$http({
-          url: 'http://localhost:8089/test?username=admin&password=admin',
-          method: 'get'
-        }).then(res=>{
-          console.log(res.data.status);
-          console.log(res.data.userName);
-          console.log(res.data.token);
-        })
 
+        // GET
         // this.$http({
-        //   url: 'http://localhost:8089/login',
-        //   method: 'post',
-        //   data: {
-        //     username: 'admin',
-        //     password: 'admin'
-        //   }
+        //   url: 'http://localhost:8089/test?username=admin&password=admin',
+        //   //url: 'http://localhost:8089/us/999',
+        //   method: 'get'
         // }).then(res=>{
         //   console.log(res.data.status);
-        //   console.log(res.data.userName);
-        //   console.log(res.data.token);
+        //   console.log(res.data.data.userName);
+        //   console.log(res.data.data.token);
         // })
 
-        // this.$http.post('http://localhost:8089/login',this.form).then(res=>{
-        //   console.log(res.data.status);
-        //   console.log(res.data.userName);
-        //   console.log(res.data.token);
-        // })
+
+        // POST
+        var params = new URLSearchParams();
+        params.append('username', this.form.username);
+        params.append('password', this.form.password);
+
+        this.$http.post('http://localhost:8089/login',params).then(res=>{
+          console.log(res.data.status);
+          console.log(res.data.data.userName);
+          console.log(res.data.data.token);
+        })
+
       }
     }
   }

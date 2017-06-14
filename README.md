@@ -61,4 +61,6 @@ npm install animate.css --save
 
 ```
 login.vue 登录获取后端 apiServer 的jwt-token和用户信息,然后在header.vue中显示用户信息,前端在每次请求的时候,请求头带着jwt-token,后端 apiServer 验证jwt-token的有效性.如果未通过验证,跳转到哪里呢?(如何处理逻辑?)
+
+每次请求,在请求头的Authorization中都要带着服务端传递过来的jwt-token,把该信息传输到服务端进行jwt验证.
 ```

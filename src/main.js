@@ -28,7 +28,21 @@ import App from './App.vue'
 //使用element-ui
 Vue.use(ElementUI)
 
-Vue.prototype.$http = axios  //其他页面在使用axios的时候直接  this.$http就可以了
+const instance = axios.create({
+  // // TODO: full base url
+  // baseURL: '//localhost:2080/api/',
+  //baseURL: '//jsonplaceholder.micua.com/',
+  timeout: 100,
+  headers: {
+    // 'X-Custom-Header': 'foobar',
+    // // true: need, false: dont need
+    // 'Authorization': true,
+    'X-Requested-With': 'XMLHttpRequest1222112121121212',
+    'token':'jdaksfffffffff;jlaffjkldsjfkljglkfdjsgjsjglfdjglk;'
+  }
+})
+
+Vue.prototype.$http = instance  //其他页面在使用axios的时候直接  this.$http就可以了
 
 const {state} = store
 
@@ -52,22 +66,33 @@ router.beforeEach((route, redirect, next) => {
   }
 })
 
-axios.interceptors.response.use(
-  response => {
-    if (response.data && response.data.code) {
-      if (response.data.code === '2001') {
-        auth.logout()
-      }
-    }
-    return response;
-  },
-  error => {
-    if (error.response) {
-      //全局ajax错误信息提示
-      // Element.MessageBox({type:"error",message:error.response.data,title:"温馨提示"});
-    }
-    return Promise.reject(error);
-  });
+// axios.interceptors.request.use(
+//     config => {
+//         // 判断是否存在token，如果存在的话，则每个http header都加上token
+//         // config.withCredentials = true
+//         config.headers.Authorization = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9hcGkuamlhamlh'
+//         return config
+//     },
+//     err => {
+//         return Promise.reject(err)
+// })
+
+// axios.interceptors.response.use(
+//   response => {
+//     if (response.data && response.data.code) {
+//       if (response.data.code === '2001') {
+//         auth.logout()
+//       }
+//     }
+//     return response;
+//   },
+//   error => {
+//     if (error.response) {
+//       //全局ajax错误信息提示
+//       // Element.MessageBox({type:"error",message:error.response.data,title:"温馨提示"});
+//     }
+//     return Promise.reject(error);
+//   });
 
 
 new Vue({

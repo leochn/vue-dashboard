@@ -69,16 +69,53 @@
           redirectUrl = this.$route.query.redirect;
         }
         //请求后台api,获取jwt
-        this.$http.get('src/data/data.json', this.form).then(res => {
-          res.data = res.data.loginInfo;
-          //auth.login(res.data.sid,alert('callback......'));
-          auth.login(res.data.sid);
-          window.sessionStorage.setItem("user-info", JSON.stringify(res.data.user));
-          this.setUserInfo(res.data.user);
-          this.$http.defaults.headers.common['authSid'] = res.data.sid;
-          this.loadMenuList();
-          this.$router.push({path: redirectUrl});
+        // this.$http.get('src/data/data.json', this.form).then(res => {
+        //   res.data = res.data.loginInfo;
+        //   //auth.login(res.data.sid,alert('callback......'));
+        //   auth.login(res.data.sid);
+        //   window.sessionStorage.setItem("user-info", JSON.stringify(res.data.user));
+        //   this.setUserInfo(res.data.user);
+        //   this.$http.defaults.headers.common['authSid'] = res.data.sid;
+        //   this.loadMenuList();
+        //   this.$router.push({path: redirectUrl});
+        // })
+
+        // this.$http.post('http://localhost:8089/test',this.form,{headers:{'sn':'appliencoded'}}).then(res=>{
+        //   console.log(res.data.status);
+        //   console.log(res.data.userName);
+        //   console.log(res.data.token);
+        // })
+
+        // var axiosIns = this.$http.create({ url: 'http://localhost:8089/test?username=admin&password=admin', timeout: 100 })
+        // axiosIns.get()
+
+        this.$http({
+          url: 'http://localhost:8089/test?username=admin&password=admin',
+          method: 'get'
+        }).then(res=>{
+          console.log(res.data.status);
+          console.log(res.data.userName);
+          console.log(res.data.token);
         })
+
+        // this.$http({
+        //   url: 'http://localhost:8089/login',
+        //   method: 'post',
+        //   data: {
+        //     username: 'admin',
+        //     password: 'admin'
+        //   }
+        // }).then(res=>{
+        //   console.log(res.data.status);
+        //   console.log(res.data.userName);
+        //   console.log(res.data.token);
+        // })
+
+        // this.$http.post('http://localhost:8089/login',this.form).then(res=>{
+        //   console.log(res.data.status);
+        //   console.log(res.data.userName);
+        //   console.log(res.data.token);
+        // })
       }
     }
   }

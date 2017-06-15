@@ -50,8 +50,8 @@
     data() {
       return {
         form: {
-          username: '',
-          password: ''
+          username: 'admin',
+          password: 'admin'
         }
       }
     },
@@ -87,28 +87,26 @@
         // axiosIns.get()
 
 
-        // GET
-        // this.$http({
-        //   url: 'http://localhost:8089/test?username=admin&password=admin',
-        //   //url: 'http://localhost:8089/us/999',
-        //   method: 'get'
-        // }).then(res=>{
+        //GET
+        this.$http({
+          url: 'http://localhost:8089/api/test?username=admin&password=admin',
+          //url: 'http://localhost:8089/us/999',
+          method: 'get'
+        }).then(res=>{
+          console.log(res.data.status);
+        })
+
+
+        // POST
+        // var params = new URLSearchParams();
+        // params.append('username', this.form.username);
+        // params.append('password', this.form.password);
+
+        // this.$http.post('http://localhost:8089/rest/login',params).then(res=>{
         //   console.log(res.data.status);
         //   console.log(res.data.data.userName);
         //   console.log(res.data.data.token);
         // })
-
-
-        // POST
-        var params = new URLSearchParams();
-        params.append('username', this.form.username);
-        params.append('password', this.form.password);
-
-        this.$http.post('http://localhost:8089/login',params).then(res=>{
-          console.log(res.data.status);
-          console.log(res.data.data.userName);
-          console.log(res.data.data.token);
-        })
 
       }
     }

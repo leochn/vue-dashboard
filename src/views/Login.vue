@@ -71,16 +71,16 @@
 
 
         //请求后台api,获取jwt,并把信息写到session中.
-        // this.$http.get('src/data/data.json', this.form).then(res => {
-        //   res.data = res.data.loginInfo;
-        //   //auth.login(res.data.sid,alert('callback......'));
-        //   auth.login(res.data.sid);
-        //   window.sessionStorage.setItem("user-info", JSON.stringify(res.data.user));
-        //   this.setUserInfo(res.data.user);
-        //   this.$http.defaults.headers.common['authSid'] = res.data.sid;
-        //   this.loadMenuList();
-        //   this.$router.push({path: redirectUrl});
-        // })
+        this.$http.get('src/data/data.json', this.form).then(res => {
+          res.data = res.data.loginInfo;
+          //auth.login(res.data.sid,alert('callback......'));
+          auth.login(res.data.sid);
+          window.sessionStorage.setItem("user-info", JSON.stringify(res.data.user));
+          this.setUserInfo(res.data.user);
+          this.$http.defaults.headers.common['authSid'] = res.data.sid;
+          this.loadMenuList();
+          this.$router.push({path: redirectUrl});
+        })
 
 
         // var axiosIns = this.$http.create({ url: 'http://localhost:8089/test?username=admin&password=admin', timeout: 100 })
@@ -88,13 +88,13 @@
 
 
         //GET
-        this.$http({
-          url: 'http://localhost:8089/api/test?username=admin&password=admin',
-          //url: 'http://localhost:8089/us/999',
-          method: 'get'
-        }).then(res=>{
-          console.log(res.data.status);
-        })
+        // this.$http({
+        //   url: 'http://localhost:8089/api/test?username=admin&password=admin',
+        //   //url: 'http://localhost:8089/us/999',
+        //   method: 'get'
+        // }).then(res=>{
+        //   console.log(res.data.status);
+        // })
 
 
         // POST

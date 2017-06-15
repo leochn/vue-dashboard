@@ -14,6 +14,8 @@ import auth from "./auth";
 
 //导入element组件
 import ElementUI from 'element-ui'
+import $ from 'jquery';
+//import metisMenu from 'metismenu'
 
 
 //导入route组件
@@ -27,6 +29,8 @@ import App from './App.vue'
 
 //使用element-ui
 Vue.use(ElementUI)
+//Vue.use(metisMenu)
+
 
 // const instance = axios.create({
 //   // // TODO: full base url

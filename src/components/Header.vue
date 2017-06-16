@@ -87,7 +87,7 @@
   import {mapGetters, mapActions, mapMutations} from 'vuex'
   import * as types from "../store/mutation-types"
   import * as api from "../api"
-  //import  auth from '../../auth'
+  import  auth from '../auth'
   export default {
     data(){
       return {
@@ -105,8 +105,8 @@
       logout(){
         this.$http.get(api.TEST_DATA)
           .then(res => {
-            //auth.logout();
-            this.$http.defaults.headers.common['authSid'] = '';
+            auth.logout();
+            //this.$http.defaults.headers.common['authSid'] = '';
             this.$router.push({path: '/login'});
           })
       },

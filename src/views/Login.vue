@@ -71,16 +71,16 @@
 
 
         //请求后台api,获取jwt,并把信息写到session中.
-        this.$http.get('src/data/data.json', this.form).then(res => {
-          res.data = res.data.loginInfo;
-          //auth.login(res.data.sid,alert('callback......'));
-          auth.login(res.data.sid);
-          window.sessionStorage.setItem("user-info", JSON.stringify(res.data.user));
-          this.setUserInfo(res.data.user);
-          this.$http.defaults.headers.common['authSid'] = res.data.sid;
-          this.loadMenuList();
-          this.$router.push({path: redirectUrl});
-        })
+        // this.$http.get('src/data/data.json', this.form).then(res => {
+        //   res.data = res.data.loginInfo;
+        //   //auth.login(res.data.sid,alert('callback......'));
+        //   auth.login(res.data.sid);
+        //   window.sessionStorage.setItem("user-info", JSON.stringify(res.data.user));
+        //   this.setUserInfo(res.data.user);
+        //   this.$http.defaults.headers.common['authSid'] = res.data.sid;
+        //   this.loadMenuList();
+        //   this.$router.push({path: redirectUrl});
+        // })
 
 
         // var axiosIns = this.$http.create({ url: 'http://localhost:8089/test?username=admin&password=admin', timeout: 100 })
@@ -96,17 +96,27 @@
         //   console.log(res.data.status);
         // })
 
+        console.log('login...........');
 
         // POST
-        // var params = new URLSearchParams();
-        // params.append('username', this.form.username);
-        // params.append('password', this.form.password);
+        var params = new URLSearchParams();
+        params.append('username', this.form.username);
+        params.append('password', this.form.password);
 
-        // this.$http.post('http://localhost:8089/rest/login',params).then(res=>{
-        //   console.log(res.data.status);
-        //   console.log(res.data.data.userName);
-        //   console.log(res.data.data.token);
-        // })
+        this.$http.post('http://localhost:8089/rest/login',params).then(res=>{
+          // console.log(res.data.status);
+          // console.log(res.data.data.userName);
+          // console.log(res.data.data.token);
+          //console.log(res.status);
+          //console.log(res.headers);
+          auth.login(res.data.data.token);
+          //window.sessionStorage.setItem("user-info", JSON.stringify(res.data.data.userName));
+          this.setUserInfo(res.data.data.userName);
+          //this.loadMenuList();
+          this.$router.push({path: redirectUrl});
+        })
+
+        console.log('login....after.....post.....');
 
       }
     }

@@ -3,28 +3,6 @@
         <transition mode="out-in" enter-active-class="fadeIn" leave-active-class="fadeOut" appear>
             <router-view></router-view>
         </transition>
-        <div>
-            <input type="button" value="按钮" @click="show()">
-            <ul class="metismenu" id="menu">
-            <li class="active">
-                <a href="#" aria-expanded="true">Menu 1</a>
-            </li>
-            <li>
-                <a href="#" aria-expanded="false">Menu 2</a>
-                <ul aria-expanded="false">
-                    <li>
-                        <a href="#" aria-expanded="false">Menu 2.1</a>
-                    </li>
-                    <li>
-                        <a href="#" aria-expanded="false">Menu 2.2</a>
-                    </li>
-                    <li>
-                        <a href="#" aria-expanded="false">Menu 2.3</a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-        </div>
     </div>
 </template>
 <script>
@@ -32,7 +10,6 @@ import Vue from 'vue'
 import sideMenu from './components/SideMenu.vue'
 import impHeader from './components/Header.vue'
 import "font-awesome/css/font-awesome.css";
-//import $ from 'jquery';
 
 import {
     mapGetters,
@@ -44,14 +21,7 @@ import * as types from "./store/mutation-types"
 import 'animate.css'
 
 export default {
-    name: 'app',
-    methods: {
-        show: function() {
-           $("#menu").metisMenu({
-                toggle: false
-           });
-        }
-    }
+    name: 'app'
 }
 </script>
 <style>

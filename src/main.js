@@ -14,8 +14,6 @@ import auth from "./auth";
 
 //导入element组件
 import ElementUI from 'element-ui'
-import $ from 'jquery';
-//import metisMenu from 'metismenu'
 
 
 //导入route组件
@@ -29,7 +27,6 @@ import App from './App.vue'
 
 //使用element-ui
 Vue.use(ElementUI)
-//Vue.use(metisMenu)
 
 
 // const instance = axios.create({
@@ -49,70 +46,71 @@ Vue.use(ElementUI)
 //Vue.prototype.$http = instance  //其他页面在使用axios的时候直接  this.$http就可以了
 
 Vue.prototype.$http = axios  //其他页面在使用axios的时候直接  this.$http就可以了
+
 const { state } = store
 
 //路由开始之前的操作
 router.beforeEach((route, redirect, next) => {
-  // console.log('auth.loggedIn()=' + auth.loggedIn());
-  // console.log('router.beforeEach........');
   if (state.device.isMobile && state.sidebar.opened) {
-    // console.log('router.beforeEach.if.......');
     store.commit(TOGGLE_SIDEBAR, false);
   }
   if (!auth.loggedIn() && route.path !== '/login') {
-    // console.log('router.beforeEach.....2if...');
     next({
       path: '/login',
       query: { redirect: route.fullPath }
     })
   } else {
-    // console.log('router.beforeEach.....2if  else...');
     next()
   }
 })
 
-axios.interceptors.request.use(
-  config => {
-    // 判断是否存在token，如果存在的话，则每个http header都加上token
-    // 在服务端的response的"Access-Control-Allow-Headers"设置了 Authorization ,才可以用.
-    config.headers.Authorization = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9hcGkuamlhamlh'
-    config.headers.token= 'jdaksfffffffff;jlaffjkldsjfkljglkfdjsgjsjglfdjglk;'
-    return config
-  },
-  err => {
-    return Promise.reject(err)
-  })
-
 // axios.interceptors.request.use(
 //   config => {
-//     if (store.state.token) {  // 判断是否存在token，如果存在的话，则每个http header都加上token
-//       config.headers.Authorization = `token ${store.state.token}`;
-//     }
-//     alert('request.use');
-//     return config;
+//     // 判断是否存在token，如果存在的话，则每个http header都加上token
+//     // 在服务端的response的"Access-Control-Allow-Headers"设置了 Authorization ,才可以用.
+//     console.log('axios.interceptors.request.use......................');
+//     config.headers.Authorization = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9hcGkuamlhamlh'
+//     return config
 //   },
 //   err => {
-//     alert('request.use-error');
-//     return Promise.reject(err);
-//   });
+//     return Promise.reject(err)
+//   })
+
+axios.interceptors.request.use(
+  config => {
+    if (window.localStorage.getItem('imp-sid')) {  // 判断是否存在token，如果存在的话，则每个http header都加上token
+      console.log('imp-sid:'+ window.localStorage.getItem('imp-sid'));
+      config.headers.Authorization = window.localStorage.getItem('imp-sid');
+    }
+    return config;
+  },
+  err => {
+    return Promise.reject(err);
+  });
 
 
-// axios.interceptors.response.use(
-//   response => {
-//     if (response.data && response.data.code) {
-//       if (response.data.code === '2001') {
-//         auth.logout()
-//       }
-//     }
-//     return response;
-//   },
-//   error => {
-//     if (error.response) {
-//       //全局ajax错误信息提示
-//       // Element.MessageBox({type:"error",message:error.response.data,title:"温馨提示"});
-//     }
-//     return Promise.reject(error);
-//   });
+axios.interceptors.response.use(
+  response => {
+    if (response.data && response.data.code) {
+      if (response.data.code === '1002') {
+        // 1002 为未登陆状态.
+        auth.logout()
+      }
+    }
+    return response;
+  },
+  error => {
+    if (error.response) {
+      //alert(error.response.data);
+      if (error.response.status == '401') {
+        console.log('401-401-401-401');
+        auth.logout()
+      } 
+      //全局ajax错误信息提示
+      // Element.MessageBox({type:"error",message:error.response.data,title:"温馨提示"});
+    }
+    return Promise.reject(error);
+  });
 
 
 new Vue({

@@ -64,29 +64,29 @@ router.beforeEach((route, redirect, next) => {
   }
 })
 
-axios.interceptors.request.use(
-  config => {
-    // 判断是否存在token，如果存在的话，则每个http header都加上token
-    // 在服务端的response的"Access-Control-Allow-Headers"设置了 Authorization ,才可以用.
-    console.log('axios.interceptors.request.use......................');
-    config.headers.Authorization = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJp';
-    return config;
-  },
-  err => {
-    return Promise.reject(err)
-  })
-
 // axios.interceptors.request.use(
 //   config => {
-//     if (window.localStorage.getItem('imp-sid')) {  // 判断是否存在token，如果存在的话，则每个http header都加上token
-//       console.log('imp-sid-->request.use:'+ window.localStorage.getItem('imp-sid'));
-//       config.headers.Authorization = window.localStorage.getItem('imp-sid');
-//     }
+//     // 判断是否存在token，如果存在的话，则每个http header都加上token
+//     // 在服务端的response的"Access-Control-Allow-Headers"设置了 Authorization ,才可以用.
+//     console.log('axios.interceptors.request.use......................');
+//     config.headers.Authorization = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJp';
 //     return config;
 //   },
 //   err => {
-//     return Promise.reject(err);
-//   });
+//     return Promise.reject(err)
+//   })
+
+axios.interceptors.request.use(
+  config => {
+    if (window.localStorage.getItem('imp-sid')) {  // 判断是否存在token，如果存在的话，则每个http header都加上token
+      //console.log('imp-sid-->request.use:'+ window.localStorage.getItem('imp-sid'));
+      config.headers.Authorization = window.localStorage.getItem('imp-sid');
+    }
+    return config;
+  },
+  err => {
+    return Promise.reject(err);
+  });
 
 
 axios.interceptors.response.use(
@@ -95,6 +95,7 @@ axios.interceptors.response.use(
       if (response.data.code === '1002') {
         // 1002 为未登陆状态.
         auth.logout()
+        router.push({path: '/login'});
       }
     }
     return response;
@@ -102,10 +103,11 @@ axios.interceptors.response.use(
   error => {
     if (error.response) {
       //alert(error.response.data);
-      // if (error.response.status == '401') {
-      //   console.log('401-401-401-401');
-      //   auth.logout()
-      // } 
+      if (error.response.status == '401') {
+        console.log('401-401-401-401');
+        auth.logout()
+        router.push({path: '/login'});
+      } 
       //全局ajax错误信息提示
       // Element.MessageBox({type:"error",message:error.response.data,title:"温馨提示"});
     }

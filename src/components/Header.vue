@@ -107,6 +107,7 @@
           .then(res => {
             auth.logout();
             //this.$http.defaults.headers.common['authSid'] = '';
+            console.log('this.$router=' + this.$router);
             this.$router.push({path: '/login'});
           })
       },

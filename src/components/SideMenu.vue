@@ -101,12 +101,12 @@
   }
 
   .slideInLeft {
-    animation-duration: 3s;
+    animation-duration: .8s;
     animation-name: slideInLeft;
   }
 
   .slideOutLeft {
-    animation-duration: 1s;
+    animation-duration: .5s;
     animation-name: slideOutLeft;
   }
   

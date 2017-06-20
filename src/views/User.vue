@@ -58,7 +58,10 @@
       </el-dialog>
   
       <div>
-        <el-button type="primary" @click="send">SEND</el-button>
+        <el-button type="primary" @click="sendPost">send-post</el-button>
+      </div>
+      <div>
+        <el-button type="primary" @click="sendGet">send-get</el-button>
       </div>
     </div>
   
@@ -100,10 +103,20 @@ export default {
     }
   },
   methods: {
-    send(){
-      console.log('send...........');
-      this.$http.get('http://localhost:8089/api/test?username=admin&password=admin').then(res=>{
+    sendPost(){
+      var params = new URLSearchParams();
+      params.append('loginname', 'admin');
+      params.append('password', 'admin');
+      this.$http.post('http://localhost:8089/api/test',params).then(res=>{
         console.log(res.data.status);
+        console.log(res.data.data);
+      });
+    },
+
+    sendGet(){
+      this.$http.get('http://localhost:8089/api/test?loginname=admin&password=admin').then(res=>{
+        console.log(res.data.status);
+        console.log(res.data.data);
       });
     },
 

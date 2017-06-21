@@ -8,7 +8,7 @@
             <p class="text-muted">使用用户名登录</p>
             <div class="input-group m-b-1">
               <span class="input-group-addon"><i class="fa fa-user"></i></span>
-              <input type="text" class="form-control" placeholder="loginname" v-model="form.loginname">
+              <input type="text" class="form-control" placeholder="loginName" v-model="form.loginName">
             </div>
             <div class="input-group m-b-2">
               <span class="input-group-addon"><i class="fa fa-lock"></i></span>
@@ -50,7 +50,7 @@
     data() {
       return {
         form: {
-          loginname: 'admin',
+          loginName: 'admin',
           password: 'admin'
         }
       }
@@ -83,13 +83,13 @@
         // })
 
 
-        // var axiosIns = this.$http.create({ url: 'http://localhost:8089/test?loginname=admin&password=admin', timeout: 100 })
+        // var axiosIns = this.$http.create({ url: 'http://localhost:8089/test?loginName=admin&password=admin', timeout: 100 })
         // axiosIns.get()
 
 
         //GET
         // this.$http({
-        //   url: 'http://localhost:8089/api/test?loginname=admin&password=admin',
+        //   url: 'http://localhost:8089/api/test?loginName=admin&password=admin',
         //   //url: 'http://localhost:8089/us/999',
         //   method: 'get'
         // }).then(res=>{
@@ -100,18 +100,18 @@
 
         // POST
         var params = new URLSearchParams();
-        params.append('loginname', this.form.loginname);
+        params.append('loginName', this.form.loginName);
         params.append('password', this.form.password);
 
         this.$http.post('http://localhost:8089/rest/login',params).then(res=>{
           // console.log(res.data.status);
-          // console.log(res.data.data.loginname);
+          // console.log(res.data.data.loginName);
           // console.log(res.data.data.token);
           //console.log(res.status);
           //console.log(res.headers);
           auth.login(res.data.data.token);
-          //window.sessionStorage.setItem("user-info", JSON.stringify(res.data.data.loginname));
-          this.setUserInfo(res.data.data.loginname);
+          //window.sessionStorage.setItem("user-info", JSON.stringify(res.data.data.loginName));
+          this.setUserInfo(res.data.data.loginName);
           //this.loadMenuList();
           this.$router.push({path: redirectUrl});
         })

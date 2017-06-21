@@ -7,6 +7,7 @@ import About from '../views/About.vue'
 import Login from '../views/Login.vue'
 import Role from '../views/Role.vue'
 import User from '../views/User.vue'
+import User2 from '../views/User2.vue'
 import Layout from "../views/Layout.vue";
 
 Vue.use(VueRouter);
@@ -26,6 +27,7 @@ const routes = [{
 		{ path: '/home', name: 'home', component: Home },
 		{ path: '/index', name: 'index', component: Index },
 		{ path: '/sys/users', name: 'user', component: User },
+		{ path: '/sys/users2', name: 'user2', component: User2 },
 		{ path: '/role', name: 'role', component: Role },
 		{ path: '/about', name: 'about', component: About }
 	]

@@ -69,8 +69,8 @@
         form: {
           name: null,
           sex: 1,
-          age: 20,
-          birthday: moment(new Date).format('yyyy-MM-dd'), // this.$dateFormat(new Date, "yyyy-MM-dd"),
+          age: 20, // moment(date).format("YYYY-MM-DD");
+          birthday: moment(new Date).format('YYYY-MM-DD'),// this.$dateFormat(new Date, "yyyy-MM-dd"),
           address: null,
           zip: 412300
         },

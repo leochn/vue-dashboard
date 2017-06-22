@@ -10,9 +10,10 @@
     ]
     ,"isShow":"1"
   },
-  {"id":102,"parentId":null,"sort":3,"name":"测试2","href":"/test/2","icon":"fa fa-download","children":
+  {"id":102,"parentId":null,"sort":3,"name":"错误页面","href":"/err/2","icon":"fa fa-download","children":
     [
-      {"id":103,"parentId":102,"sort":0,"name":"测试2-1","href":"/test/2/1","icon":"fa fa-image","children":[],"isShow":"1"}
+      {"id":103,"parentId":102,"sort":0,"name":"401","href":"/err/401","icon":"fa fa-image","children":[],"isShow":"1"},
+      {"id":104,"parentId":104,"sort":0,"name":"404","href":"/err/404","icon":"fa fa-image","children":[],"isShow":"1"}
     ]
     ,"isShow":"1"
   },
@@ -21,8 +22,9 @@
       {"id":108,"parentId":6,"sort":0,"name":" 资源管理","href":"/sys/resource","icon":"fa fa-database","children":[],"isShow":"1"},
       {"id":7,"parentId":6,"sort":1,"name":"菜单管理","href":"/sys/menuList","icon":"fa fa-navicon","children":[],"isShow":"1"},
       {"id":8,"parentId":6,"sort":2,"name":"角色管理","href":"/sys/roleList","icon":"fa fa-universal-access","children":[],"isShow":"1"},
-      {"id":9,"parentId":6,"sort":3,"name":"用户管理","href":"/sys/users","icon":"fa fa-user-plus","children":[],"isShow":"1"},
-      {"id":10,"parentId":6,"sort":4,"name":"用户管理2","href":"/sys/users2","icon":"fa fa-user-plus","children":[],"isShow":"1"}
+      {"id":9,"parentId":6,"sort":3,"name":"用户管理-后端排序","href":"/sys/users","icon":"fa fa-user-plus","children":[],"isShow":"1"},
+      {"id":10,"parentId":6,"sort":4,"name":"用户管理2","href":"/sys/users2","icon":"fa fa-user-plus","children":[],"isShow":"1"},
+      {"id":11,"parentId":6,"sort":5,"name":"用户管理-前端排序","href":"/sys/users3","icon":"fa fa-user-plus","children":[],"isShow":"1"}
     ]
     ,"isShow":"1"
   }

@@ -4,7 +4,7 @@
       <el-button @click.stop="on_refresh" size="small">
         <i class="fa fa-refresh"></i>
       </el-button>
-      <router-link :to="{name: 'addUser'}" tag="span">
+      <router-link :to="{name: 'user2'}" tag="span">
         <el-button type="primary" icon="plus" size="small">添加数据</el-button>
       </router-link>
     </panel-title>
@@ -15,7 +15,6 @@
         element-loading-text="拼命加载中"
         border
         @selection-change="on_batch_select"
-        @sort-change="sortChange"
         style="width: 100%;">
         <el-table-column
           type="selection"
@@ -25,19 +24,19 @@
           prop="id"
           label="id"
           width="80"
-          sortable='custom'>
+          sortable>
         </el-table-column>
         <el-table-column
           prop="loginName"
           label="登陆名"
           width="120"
-          sortable='custom'>
+          sortable>
         </el-table-column>
         <el-table-column
           prop="userNo"
           label="员工号"
           width="100"
-          sortable='custom'>
+          sortable>
         </el-table-column>
         <el-table-column
           prop="userName"
@@ -53,13 +52,13 @@
           prop="phone"
           label="电话"
           width="140"
-          sortable='custom'>
+          sortable>
         </el-table-column>
         <el-table-column
           prop="mobile"
           label="手机号"
           width="140"
-          sortable='custom'>
+          sortable>
         </el-table-column>
         <el-table-column
           label="操作"
@@ -128,14 +127,9 @@
         this.get_table_data()
       },
       //获取数据
-      get_table_data(sortField,sortOrder){
+      get_table_data(){
         this.load_data = true
-        var url = null;
-        if (sortField === null || sortField === undefined || sortField === '') {
-          url = 'http://localhost:8089/api/users?page=' + this.currentPage + '&rows=' + this.length
-        }else {
-          url = 'http://localhost:8089/api/users?page=' + this.currentPage + '&rows=' + this.length + '&sortField=' + sortField + '&sortOrder=' + sortOrder
-        }
+        var url = 'http://localhost:8089/api/users?page=' + this.currentPage + '&rows=' + this.length
         this.$http.get(url)
         .then(res=>{
           this.table_data = res.data.data
@@ -156,12 +150,12 @@
           .then(() => {
             this.load_data = true
             console.log(item.id + "," + item.loginName);
+            this.$message('删除第'+ item.id +'行');
             this.$http.get('http://localhost:8089/api/users?page=1&rows=5')
             .then(res=>{
               this.table_data = res.data.data
               this.total = res.data.total
               this.load_data = false
-              this.$message('删除第'+ item.id +'行');
             })
             .catch(()=>{
               this.load_data = false
@@ -182,18 +176,10 @@
       },
       // 点击重新排序,请求后端api的排序数据
       sortChange(val){
-        // val.column ; val.prop ; val.order
-        //console.log(val.prop)
-        if (val.prop !== null) {
-          var order = null;
-          if (val.order == 'ascending') {
-            order = 'asc'
-          }
-          if (val.order == 'descending') {
-            order = 'desc'
-          }
-          this.get_table_data(val.prop,order)
-        }
+        console.log(val);
+      },
+      sortMethod(val){
+        alert('sortMethod');
       },
       //批量删除
       on_batch_del(){

@@ -96,27 +96,37 @@
         //   console.log(res.data.status);
         // })
 
-        console.log('login...........');
 
-        // POST
+        // POST --> 方式1
         var params = new URLSearchParams();
         params.append('loginName', this.form.loginName);
         params.append('password', this.form.password);
 
-        this.$http.post('http://localhost:8089/rest/login',params).then(res=>{
-          // console.log(res.data.status);
-          // console.log(res.data.data.loginName);
-          // console.log(res.data.data.token);
-          //console.log(res.status);
-          //console.log(res.headers);
+        // 根据后端的接收不同,提交的方式也不同.后端接收表单格式
+        // this.$http.post('http://localhost:8089/rest/login',params).then(res=>{
+        //   // console.log(res.data.status);
+        //   // console.log(res.data.data.loginName);
+        //   // console.log(res.data.data.token);
+        //   //console.log(res.status);
+        //   //console.log(res.headers);
+        //   auth.login(res.data.data.token);
+        //   //window.sessionStorage.setItem("user-info", JSON.stringify(res.data.data.loginName));
+        //   this.setUserInfo(res.data.data.loginName);
+        //   //this.loadMenuList();
+        //   this.$router.push({path: redirectUrl});
+        // })
+
+        // POST --> 方式2
+        // 根据后端的接收不同,提交的方式也不同.后端接收json格式
+        this.$http.post('http://localhost:8089/rest/login2',this.form).then(res=>{
+
           auth.login(res.data.data.token);
-          //window.sessionStorage.setItem("user-info", JSON.stringify(res.data.data.loginName));
           this.setUserInfo(res.data.data.loginName);
           //this.loadMenuList();
           this.$router.push({path: redirectUrl});
         })
 
-        console.log('login....after.....post.....');
+
 
       }
     }

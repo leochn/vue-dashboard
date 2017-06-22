@@ -56,8 +56,9 @@
           sortable='custom'>
         </el-table-column>
         <el-table-column
-          prop="mobile"
-          label="手机号"
+          prop="createTime"
+          label="创建时间"
+          :formatter="dateFormat" 
           width="140"
           sortable='custom'>
         </el-table-column>
@@ -98,6 +99,7 @@
 <script type="text/javascript">
   import panelTitle from '../components/panelTitle/panelTitle.vue'
   import bottomToolBar from '../components/bottomToolBar.vue'
+  var moment = require('moment');
 
   export default{
     data(){
@@ -220,6 +222,23 @@
           .catch(() => {
           })
       }
+      ,
+      //时间格式化  
+       dateFormat:function(row, column) {  
+
+        var date = row[column.property]; 
+        //alert(date); 
+        if (date == undefined) {  
+          return "";  
+        }  
+        //return moment(date).format("YYYY-MM-DD HH:mm:ss");  
+         return moment(date).format("YYYY-MM-DD");  
+      }  
+
+
+
+
+      //
     }
   }
 </script>

@@ -61,6 +61,7 @@
 </template>
 <script type="text/javascript">
   import panelTitle from '../components/panelTitle/panelTitle.vue'
+  var moment = require('moment');
 
   export default{
     data(){
@@ -69,7 +70,7 @@
           name: null,
           sex: 1,
           age: 20,
-          birthday: this.$dateFormat(new Date, "yyyy-MM-dd"),
+          birthday: moment(new Date).format('yyyy-MM-dd'), // this.$dateFormat(new Date, "yyyy-MM-dd"),
           address: null,
           zip: 412300
         },

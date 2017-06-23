@@ -135,6 +135,8 @@
         //     this.load_data = false
         //   })
         
+        // 获取数据还有一些问题,就是创建时间那边会有一些问题(报错...).
+
         var url = 'http://localhost:8089/api/users/' + this.route_id;
         this.$http.get(url)
         .then(res=>{
@@ -152,6 +154,8 @@
 
       //提交
       on_submit_form(formName){
+        // 需要判断是post提交 还是put提交,根据 this.route_id 是否为 undefined 来判断.
+
         //console.log(this.form.createTime);
         this.$refs.form.validate((valid) => {
           if (!valid) return false

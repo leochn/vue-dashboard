@@ -179,8 +179,9 @@
       },
       //批量选择
       on_batch_select(val){
-        //alert(8);
         this.batch_select = val
+        console.log(val)
+        console.log(val[0].id)
       },
       // 点击重新排序,请求后端api的排序数据
       sortChange(val){
@@ -204,28 +205,27 @@
           cancelButtonText: '取消',
           type: 'warning'
         })
-          .then(() => {
-            this.load_data = true
-            // 伪删除,实际为刷新数据
-            //this.get_table_data()
-            
-            this.$http.get('http://localhost:8089/api/users?page=1&rows=6')
-            .then(res=>{
-              this.table_data = res.data.data
-              this.total = res.data.total
-              this.load_data = false
-            })
-            .catch(()=>{
-              this.load_data = false
-            });
+        .then(() => {
+          this.load_data = true
+          // 伪删除,实际为刷新数据
+          //this.get_table_data()
+          
+          this.$http.get('http://localhost:8089/api/users?page=1&rows=6')
+          .then(res=>{
+            this.table_data = res.data.data
+            this.total = res.data.total
+            this.load_data = false
           })
-          .catch(() => {
-          })
-      }
-      ,
+          .catch(()=>{
+            this.load_data = false
+          });
+        })
+        .catch(() => {
+        })
+      },
+
       //时间格式化  
        dateFormat:function(row, column) {  
-
         var date = row[column.property]; 
         //alert(date); 
         if (date == undefined) {  

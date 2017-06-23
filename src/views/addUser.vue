@@ -37,9 +37,9 @@
 
             <el-form-item label="用户类型:">
               <el-radio-group v-model="form.userType" style="width: 250px;">
-                <el-radio :label="0">user</el-radio>
-                <el-radio :label="1">admin</el-radio>
-                <el-radio :label="2">super</el-radio>
+                <el-radio label="0">user</el-radio>
+                <el-radio label="1">admin</el-radio>
+                <el-radio label="2">super</el-radio>
               </el-radio-group>
             </el-form-item>
 
@@ -99,7 +99,7 @@
           email: 'abc@gmail.com',
           phone: '02188888888',
           mobile: '13688888888',
-          userType: 0,
+          userType: '0',  // label='0' 为String型;  :label='0' 为Number型
           createTime: new Date   //this.$dateFormat(new Date, "yyyy-MM-dd") //不能进行日期格式化,否则提交的时候验证会报错. 报错没有解决.
         },
         route_id: this.$route.params.id,
@@ -116,27 +116,13 @@
     },
     created(){
       this.route_id && this.get_form_data()
-      console.log(this.route_id);
     },
     methods: {
       //获取数据
       get_form_data(){
         this.load_data = true
-
-
-        // this.$fetch.api_table.get({
-        //   id: this.route_id
-        // })
-        //   .then(({data}) => {
-        //     this.form = data
-        //     this.load_data = false
-        //   })
-        //   .catch(() => {
-        //     this.load_data = false
-        //   })
-        
         // 获取数据还有一些问题,就是创建时间那边会有一些问题(报错...).
-
+        // 后端的 json 输出, 时间传递的是时间戳.
         var url = 'http://localhost:8089/api/users/' + this.route_id;
         this.$http.get(url)
         .then(res=>{
@@ -146,27 +132,39 @@
         .catch(()=>{
           this.load_data = false
         });
-
-
-
-
       },
 
       //提交
       on_submit_form(formName){
-        // 需要判断是post提交 还是put提交,根据 this.route_id 是否为 undefined 来判断.
-
         //console.log(this.form.createTime);
-        this.$refs.form.validate((valid) => {
-          if (!valid) return false
-          this.on_submit_loading = true
-          this.$http.post('http://localhost:8089/api/user',this.form).then(res=>{
-            this.$message.success('成功添加用户')
-            setTimeout(this.$router.back(), 500)
-          }).catch(()=>{
-            this.on_submit_loading = false
+        //console.log('this.route_id=' + this.route_id);
+        // 需要判断是post提交 还是put提交,根据 this.route_id 是否为 undefined 来判断.
+        if (this.route_id === undefined ) {
+          // 新增 --> post
+          this.$refs.form.validate((valid) => {
+            if (!valid) return false
+            this.on_submit_loading = true
+            this.$http.post('http://localhost:8089/api/user',this.form).then(res=>{
+              this.$message.success('成功添加用户☺☺')
+              setTimeout(this.$router.back(), 500)
+            }).catch(()=>{
+              this.on_submit_loading = false
+            })
           })
-        })
+        }else {
+          // 修改--> put 
+          this.$refs.form.validate((valid) => {
+            if (!valid) return false
+            this.on_submit_loading = true
+            var url = 'http://localhost:8089/api/users/' + this.route_id;
+            this.$http.put(url,this.form).then(res=>{
+              this.$message.success('成功更新用户☺☺☺')
+              setTimeout(this.$router.back(), 500)
+            }).catch(()=>{
+              this.on_submit_loading = false
+            })
+          })
+        }
       }
 
 

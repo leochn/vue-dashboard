@@ -129,7 +129,7 @@
       on_refresh(){
         this.get_table_data()
       },
-      //获取数据
+      //获取数据,有排序和不排序之分.
       get_table_data(sortField,sortOrder){
         this.load_data = true
         var url = null;

@@ -75,13 +75,6 @@
         if (!value) {
           return callback(new Error('邮箱不能为空'));
         }
-
-        // if (!reg.test(value)) {
-        //   callback(new Error('邮箱格式不正确--> ☺ '));
-        // } else {
-        //   callback();
-        // }
-
         setTimeout(() => {
           if (!reg.test(value)) {
             callback(new Error('邮箱格式不正确--> ☺ '));
@@ -90,6 +83,24 @@
           }
         }, 200);
       };
+
+      var checkLoginName=(rule, value, callback)=>{
+        if (!value) {
+          return callback(new Error('登录名不能为空'));
+        }
+        var url = 'http://localhost:8089/api/user/' + value;
+        this.$http.get(url).then(res=>{
+          if (res.data.status == 2000) {
+            callback(new Error('登录名已存在--> ☺ '));
+          } else{
+            callback();
+          } 
+        }).catch(()=>{
+          //
+        })
+      };
+
+
       return {
         form: {
           loginName: null,
@@ -106,7 +117,8 @@
         load_data: false,
         on_submit_loading: false,
         rules: {
-          loginName: [{required: true, message: '登录名不能为空', trigger: 'blur'}],
+          // 登录名要做唯一性校验.
+          loginName: [{validator:checkLoginName , trigger: 'blur'}],
           pwd: [{required: true, message: '密码不能为空', trigger: 'blur'}],
           userNo: [{required: true, message: '员工号不能为空', trigger: 'blur'}],
           email: [{validator:checkEmail , trigger: 'blur'}],
@@ -121,7 +133,7 @@
       //获取数据
       get_form_data(){
         this.load_data = true
-        // 获取数据还有一些问题,就是创建时间那边会有一些问题(报错...).
+        // 获取数据还有一些问题,就是创建时间那边会有一些问题(有时候报错...不知道为什么?).
         // 后端的 json 输出, 时间传递的是时间戳.
         var url = 'http://localhost:8089/api/users/' + this.route_id;
         this.$http.get(url)
@@ -166,8 +178,6 @@
           })
         }
       }
-
-
     },
     components: {
       panelTitle

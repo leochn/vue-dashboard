@@ -24,7 +24,7 @@
         <el-table-column
           prop="id"
           label="id"
-          width="80"
+          width="150"
           sortable='custom'>
         </el-table-column>
         <el-table-column
@@ -110,7 +110,7 @@
         //数据总条目
         total: 0,
         //每页显示多少条数据
-        length: 8,
+        length: 10,
         //请求时的loading效果
         load_data: true,
         //批量选择数组

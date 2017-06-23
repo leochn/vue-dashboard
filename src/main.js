@@ -20,6 +20,10 @@ import ElementUI from 'element-ui'
 import router from './router'
 //import router from './routerConfig.js'
 
+
+//导入自定义插件
+import Plugins from './plugins'
+
 //导入主视图文件
 import App from './App.vue'
 
@@ -27,6 +31,9 @@ import App from './App.vue'
 
 //使用element-ui
 Vue.use(ElementUI)
+
+//使用自定义插件
+Vue.use(Plugins)
 
 
 // const instance = axios.create({

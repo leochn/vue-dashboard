@@ -12,7 +12,7 @@
             </div>
             <div class="input-group m-b-2">
               <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-              <input type="password" class="form-control" placeholder="Password" v-model="form.password"
+              <input type="pwd" class="form-control" placeholder="pwd" v-model="form.pwd"
                      @keyup.enter="login">
             </div>
             <div class="row">
@@ -51,7 +51,7 @@
       return {
         form: {
           loginName: 'admin',
-          password: 'admin'
+          pwd: 'admin'
         }
       }
     },
@@ -83,13 +83,13 @@
         // })
 
 
-        // var axiosIns = this.$http.create({ url: 'http://localhost:8089/test?loginName=admin&password=admin', timeout: 100 })
+        // var axiosIns = this.$http.create({ url: 'http://localhost:8089/test?loginName=admin&pwd=admin', timeout: 100 })
         // axiosIns.get()
 
 
         //GET
         // this.$http({
-        //   url: 'http://localhost:8089/api/test?loginName=admin&password=admin',
+        //   url: 'http://localhost:8089/api/test?loginName=admin&pwd=admin',
         //   //url: 'http://localhost:8089/us/999',
         //   method: 'get'
         // }).then(res=>{
@@ -100,7 +100,7 @@
         // POST --> 方式1
         var params = new URLSearchParams();
         params.append('loginName', this.form.loginName);
-        params.append('password', this.form.password);
+        params.append('pwd', this.form.pwd);
 
         // 根据后端的接收不同,提交的方式也不同.后端接收表单格式
         // this.$http.post('http://localhost:8089/rest/login',params).then(res=>{
@@ -119,7 +119,6 @@
         // POST --> 方式2
         // 根据后端的接收不同,提交的方式也不同.后端接收json格式
         this.$http.post('http://localhost:8089/rest/login2',this.form).then(res=>{
-
           auth.login(res.data.data.token);
           this.setUserInfo(res.data.data.loginName);
           //this.loadMenuList();

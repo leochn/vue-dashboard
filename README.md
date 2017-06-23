@@ -64,3 +64,9 @@ login.vue 登录获取后端 apiServer 的jwt-token和用户信息,然后在head
 
 每次请求,在请求头的Authorization中都要带着服务端传递过来的jwt-token,把该信息传输到服务端进行jwt验证.
 ```
+
+
+
+```
+add ,update  待修改.
+```

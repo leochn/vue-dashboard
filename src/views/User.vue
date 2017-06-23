@@ -66,7 +66,7 @@
           label="操作"
           width="180">
           <template scope="props">
-            <router-link :to="{name: 'updateUser', params: {id: props.row.id}}" tag="span">
+            <router-link :to="{name: 'addUser', params: {id: props.row.id}}" tag="span">
               <el-button type="info" size="small" icon="edit">修改</el-button>
             </router-link>
             <el-button type="danger" size="small" icon="delete" @click="delete_data(props.row)">删除</el-button>
@@ -158,12 +158,12 @@
           .then(() => {
             this.load_data = true
             console.log(item.id + "," + item.loginName);
-            this.$http.get('http://localhost:8089/api/users?page=1&rows=5')
+            var url = 'http://localhost:8089/api/users/' + item.id;
+            this.$http.delete(url)
             .then(res=>{
-              this.table_data = res.data.data
-              this.total = res.data.total
               this.load_data = false
               this.$message('删除第'+ item.id +'行');
+              this.get_table_data()
             })
             .catch(()=>{
               this.load_data = false
@@ -231,8 +231,11 @@
         if (date == undefined) {  
           return "";  
         }  
-        //return moment(date).format("YYYY-MM-DD HH:mm:ss");  
-         return moment(date).format("YYYY-MM-DD");  
+        // 使用第三方 moment 进行日期格式修改
+        //return moment(date).format("YYYY-MM-DD");  
+        
+        // 使用自定义插件进行日期格式修改
+        return this.$dateFormat(new Date, "yyyy-MM-dd");
       }  
 
 

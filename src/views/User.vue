@@ -158,7 +158,7 @@
           .then(() => {
             this.load_data = true
             console.log(item.id + "," + item.loginName);
-            var url = 'http://localhost:8089/api/users/' + item.id;
+            var url = 'http://localhost:8089/api/user/' + item.id;
             this.$http.delete(url)
             .then(res=>{
               this.load_data = false
@@ -179,9 +179,11 @@
       },
       //批量选择
       on_batch_select(val){
-        this.batch_select = val
-        console.log(val)
-        console.log(val[0].id)
+        this.batch_select = []
+        //只需要id就可以了.
+        for (var i = 0; i < val.length; i++) {
+          this.batch_select.push(val[i].id);
+        }
       },
       // 点击重新排序,请求后端api的排序数据
       sortChange(val){
@@ -207,14 +209,12 @@
         })
         .then(() => {
           this.load_data = true
-          // 伪删除,实际为刷新数据
-          //this.get_table_data()
-          
-          this.$http.get('http://localhost:8089/api/users?page=1&rows=6')
+          // 批量删除,用post提交,delete 不能传递数据
+          this.$http.post('http://localhost:8089/api/users/del',this.batch_select)
           .then(res=>{
-            this.table_data = res.data.data
-            this.total = res.data.total
             this.load_data = false
+            this.$message('删除 '+ this.batch_select.length +' 行数据.☺');
+            this.get_table_data()
           })
           .catch(()=>{
             this.load_data = false
@@ -235,13 +235,8 @@
         //return moment(date).format("YYYY-MM-DD");  
         
         // 使用自定义插件进行日期格式修改
-        return this.$dateFormat(new Date, "yyyy-MM-dd");
+        return this.$dateFormat(date, "yyyy-MM-dd");
       }  
-
-
-
-
-      //
     }
   }
 </script>

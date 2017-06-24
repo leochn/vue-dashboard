@@ -85,10 +85,16 @@
       };
 
       var checkLoginName=(rule, value, callback)=>{
+        // 如果是修改,并且值还等于后端传过来的值,就不进行登录名已存在的校验.
+
+        //console.log(value == this.form.loginNameTemp);
+        if ((this.route_id !== undefined) && (value == this.form.loginNameTemp)) {
+          return callback();
+        }
         if (!value) {
           return callback(new Error('登录名不能为空'));
         }
-        var url = 'http://localhost:8089/api/user/' + value;
+        var url = 'http://localhost:8089/api/userinfo/' + value;
         this.$http.get(url).then(res=>{
           if (res.data.status == 2000) {
             callback(new Error('登录名已存在--> ☺ '));
@@ -103,6 +109,7 @@
 
       return {
         form: {
+          loginNameTemp:null,
           loginName: null,
           pwd: 'abc123',
           userNo: null,
@@ -135,11 +142,12 @@
         this.load_data = true
         // 获取数据还有一些问题,就是创建时间那边会有一些问题(有时候报错...不知道为什么?).
         // 后端的 json 输出, 时间传递的是时间戳.
-        var url = 'http://localhost:8089/api/users/' + this.route_id;
+        var url = 'http://localhost:8089/api/user/' + this.route_id;
         this.$http.get(url)
         .then(res=>{
           this.form = res.data.data
           this.load_data = false
+          this.form.loginNameTemp = this.form.loginName
         })
         .catch(()=>{
           this.load_data = false
@@ -168,7 +176,7 @@
           this.$refs.form.validate((valid) => {
             if (!valid) return false
             this.on_submit_loading = true
-            var url = 'http://localhost:8089/api/users/' + this.route_id;
+            var url = 'http://localhost:8089/api/user/' + this.route_id;
             this.$http.put(url,this.form).then(res=>{
               this.$message.success('成功更新用户☺☺☺')
               setTimeout(this.$router.back(), 500)

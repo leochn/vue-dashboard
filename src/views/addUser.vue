@@ -47,7 +47,7 @@
               <el-form-item prop="createTime">
                 <el-date-picker 
                   type="date" placeholder="选择日期" 
-                  format="yyyy-MM-dd"
+                  
                   :editable="false"
                   v-model="form.createTime" 
                   style="width: 250px;">
@@ -118,7 +118,7 @@
           phone: '02188888888',
           mobile: '13688888888',
           userType: '0',  // label='0' 为String型;  :label='0' 为Number型
-          createTime: new Date   //this.$dateFormat(new Date, "yyyy-MM-dd") //不能进行日期格式化,否则提交的时候验证会报错. 报错没有解决.
+          createTime: new Date
         },
         route_id: this.$route.params.id,
         load_data: false,
@@ -129,7 +129,7 @@
           pwd: [{required: true, message: '密码不能为空', trigger: 'blur'}],
           userNo: [{required: true, message: '员工号不能为空', trigger: 'blur'}],
           email: [{validator:checkEmail , trigger: 'blur'}],
-          createTime: [{type:'date', required: true, message: '请选择日期', trigger: 'change' }]
+          createTime: [{type:'date', required: true, message: '请选择日期', trigger: 'blur' }] // trigger: 'change' ;使用change会出错.
         }
       }
     },

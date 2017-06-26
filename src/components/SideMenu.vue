@@ -18,8 +18,8 @@
 
   export default {
     props: {
-      //sideBar的显示与隐藏
-      show: Boolean   //给show指定为Boolean类型,子组件获取父组件的(show)数据,即SideMenu.vue获取App.vue中的数据,而App.vue中的数据是通过vuex来管理的.
+      //sideBar 的显示与隐藏
+      show: Boolean   //给show指定为Boolean类型,子组件获取父组件的(show)数据,即SideMenu.vue获取Layout.vue中的数据(show),而Layout.vue中的(show)数据是通过vuex来管理的(state.sidebar.opened).
     },
     data() {
       return {

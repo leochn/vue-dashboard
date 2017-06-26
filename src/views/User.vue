@@ -136,6 +136,7 @@
         if (sortField === null || sortField === undefined || sortField === '') {
           url = 'http://localhost:8089/api/users?page=' + this.currentPage + '&rows=' + this.length
         }else {
+          this.currentPage = 1
           url = 'http://localhost:8089/api/users?page=' + this.currentPage + '&rows=' + this.length + '&sortField=' + sortField + '&sortOrder=' + sortOrder
         }
         this.$http.get(url)

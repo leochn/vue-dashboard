@@ -11,6 +11,8 @@ import axios from 'axios'
 import store from "./store"
 import { TOGGLE_SIDEBAR } from "./store/mutation-types"
 import auth from "./auth";
+import NProgress from 'nprogress'; // Progress 进度条
+import 'nprogress/nprogress.css';  // Progress 进度条 样式
 
 //导入element组件
 import ElementUI from 'element-ui'
@@ -58,6 +60,7 @@ const { state } = store
 
 //路由开始之前的操作
 router.beforeEach((route, redirect, next) => {
+  NProgress.start(); // 开启Progress
   if (state.device.isMobile && state.sidebar.opened) {
     store.commit(TOGGLE_SIDEBAR, false);
   }
@@ -70,6 +73,10 @@ router.beforeEach((route, redirect, next) => {
     next()
   }
 })
+
+router.afterEach(() => {
+  NProgress.done(); // 结束Progress
+});
 
 // axios.interceptors.request.use(
 //   config => {

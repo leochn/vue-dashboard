@@ -97,6 +97,7 @@
   </div>
 </template>
 <script type="text/javascript">
+import appConfig from '../config.js'
   import panelTitle from '../components/panelTitle/panelTitle.vue'
   import bottomToolBar from '../components/bottomToolBar.vue'
   var moment = require('moment');

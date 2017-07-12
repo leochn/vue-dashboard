@@ -40,6 +40,7 @@
 </template>
 
 <script>
+  import appConfig from '../config.js'
   import * as types from '../store/mutation-types'
   import * as api from "../api"
   import  auth from '../auth'
@@ -118,7 +119,7 @@
 
         // POST --> 方式2
         // 根据后端的接收不同,提交的方式也不同.后端接收json格式
-        this.$http.post('http://localhost:8089/rest/login2',this.form).then(res=>{
+        this.$http.post(appConfig.appBaseUrl.loginUrl + '/login2',this.form).then(res=>{
           auth.login(res.data.data.token);
           this.setUserInfo(res.data.data.loginName);
           //this.loadMenuList();
